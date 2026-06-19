@@ -15,7 +15,6 @@
 
 <body class="landing-body">
 
-    <!-- HEADER -->
     <header class="plataforma-header" id="header">
         <div class="logo">
             <h1>Git Quest</h1>
@@ -29,7 +28,6 @@
         <button class="btn-login" id="open-login-btn">Área do Aluno</button>
     </header>
 
-    <!-- HERO -->
     <section class="hero-section" id="hero">
         <div class="hero-content">
             <div class="hero-eyebrow">
@@ -66,7 +64,6 @@
             </div>
         </div>
 
-        <!-- Terminal animado — assinatura visual da página -->
         <div class="hero-terminal" aria-hidden="true">
             <div class="terminal-bar">
                 <span class="t-dot red"></span>
@@ -83,14 +80,13 @@
                 <div class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">git add .</span></div>
                 <div class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">git commit -m "primeiro
                         commit"</span></div>
-                <div class="t-line t-out">[main (root-commit) a1b2c3d] primeiro commit</div>
+                <div class="t-line t-out"> [main (root-commit) a1b2c3d] primeiro commit</div>
                 <div class="t-line t-out"> 1 file changed, 1 insertion(+)</div>
                 <div class="t-line"><span class="t-prompt">$</span> <span class="t-cursor">█</span></div>
             </div>
         </div>
     </section>
 
-    <!-- COMO FUNCIONA -->
     <section class="section-block" id="como-funciona">
         <div class="section-inner">
             <p class="section-label">Como funciona</p>
@@ -135,7 +131,6 @@
         </div>
     </section>
 
-    <!-- TRILHA -->
     <section class="section-block section-alt" id="trilha">
         <div class="section-inner">
             <p class="section-label">Trilha de aprendizado</p>
@@ -217,7 +212,6 @@
         </div>
     </section>
 
-    <!-- DEPOIMENTOS -->
     <section class="section-block" id="depoimentos">
         <div class="section-inner">
             <p class="section-label">Quem já passou por aqui</p>
@@ -260,7 +254,6 @@
         </div>
     </section>
 
-    <!-- CTA FINAL -->
     <section class="cta-final">
         <div class="section-inner cta-inner">
             <h3>Pronto para digitar seu primeiro comando?</h3>
@@ -269,16 +262,45 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="site-footer">
         <div class="footer-logo">
             <span class="footer-brand">Git Quest</span>
             <span class="footer-sub">&lt;ACADEMY&gt;</span>
         </div>
-        <p class="footer-copy">© 2025 Git Quest Academy. Feito com terminal e café.</p>
+
+        <p class="footer-copy">© <span id="current-year"></span> Git Quest Academy. Feito com terminal e café.</p>
+
+        <div class="footer-credits">
+            Desenvolvido por <span class="dev-name">Harris Alexandre</span><br>
+            <small>Engenheiro de Software • Especialista em Automações</small>
+            <div class="footer-socials">
+                <a href="mailto:harrisalexandre308@gmail.com" title="E-mail">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                </a>
+                <a href="https://www.linkedin.com/in/harris-alexandre/" target="_blank" rel="noopener" title="LinkedIn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                        <rect x="2" y="9" width="4" height="12"></rect>
+                        <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                </a>
+                <a href="https://www.instagram.com/_harrisalexandre/" target="_blank" rel="noopener" title="Instagram">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                </a>
+            </div>
+        </div>
     </footer>
 
-    <!-- MODAL DE LOGIN -->
     <div class="modal-overlay" id="login-modal">
         <div class="modal-box">
             <button class="modal-close" id="close-modal-btn" aria-label="Fechar">✕</button>
@@ -295,124 +317,7 @@
         </div>
     </div>
 
-    <script>
-        // scripts/landing.js
-        document.addEventListener('DOMContentLoaded', () => {
-
-            /* -----------------------------------------------------------------------
-               MODAL DE LOGIN
-            ----------------------------------------------------------------------- */
-            const modal = document.getElementById('login-modal');
-            const openBtn = document.getElementById('open-login-btn');
-            const closeBtn = document.getElementById('close-modal-btn');
-            const submitBtn = document.getElementById('submit-login-btn');
-
-            const startBtns = [
-                document.getElementById('start-journey-btn'),
-                document.getElementById('start-journey-btn-2'),
-                document.getElementById('start-journey-btn-3'),
-            ];
-
-            function openModal() {
-                modal.classList.add('active');
-                document.getElementById('email').focus();
-            }
-
-            function closeModal() {
-                modal.classList.remove('active');
-            }
-
-            if (openBtn) openBtn.addEventListener('click', openModal);
-            if (closeBtn) closeBtn.addEventListener('click', closeModal);
-
-            startBtns.forEach(btn => {
-                if (btn) btn.addEventListener('click', openModal);
-            });
-
-            // Fechar ao clicar no overlay (fora da box)
-            if (modal) {
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) closeModal();
-                });
-            }
-
-            // Fechar com ESC
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-            });
-
-            // Redirecionar ao fazer login
-            if (submitBtn) {
-                submitBtn.addEventListener('click', () => {
-                    window.location.href = 'catalogo.html';
-                });
-            }
-
-            // Link "criar conta grátis" dentro do modal — abre o catálogo direto
-            const registerLink = document.getElementById('open-register-link');
-            if (registerLink) {
-                registerLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    window.location.href = 'catalogo.html';
-                });
-            }
-
-            /* -----------------------------------------------------------------------
-               HEADER: fundo sólido ao rolar
-            ----------------------------------------------------------------------- */
-            const header = document.getElementById('header');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 40) {
-                    header.style.background = 'rgba(22, 24, 34, 0.98)';
-                } else {
-                    header.style.background = 'rgba(22, 24, 34, 0.92)';
-                }
-            }, { passive: true });
-
-            /* -----------------------------------------------------------------------
-               TERMINAL ANIMADO NO HERO
-            ----------------------------------------------------------------------- */
-            const lines = document.querySelectorAll('#terminal-demo .t-line');
-
-            function animateTerminal() {
-                lines.forEach((line, i) => {
-                    const delay = i * 420;
-                    setTimeout(() => {
-                        line.classList.add('visible');
-                    }, delay);
-                });
-            }
-
-            // Inicia a animação assim que a página carrega
-            setTimeout(animateTerminal, 300);
-
-            /* -----------------------------------------------------------------------
-               SCROLL REVEAL: seções entram suavemente
-            ----------------------------------------------------------------------- */
-            const revealEls = document.querySelectorAll(
-                '.step-card, .trilha-card, .depo-card'
-            );
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.12 });
-
-            revealEls.forEach((el, i) => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(18px)';
-                el.style.transition = `opacity 0.4s ease ${i * 60}ms, transform 0.4s ease ${i * 60}ms`;
-                observer.observe(el);
-            });
-
-        });
-
-    </script>
+    <script src="./scripts/landing.js"></script>
 </body>
 
 </html>

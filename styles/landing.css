@@ -17,7 +17,9 @@
     --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -26,7 +28,6 @@
 html {
     scroll-behavior: smooth;
 }
-
 
 body {
     background: var(--bg-primary);
@@ -39,7 +40,6 @@ body {
     overflow-y: auto !important;
     width: auto !important;
 }
-
 
 /* ==========================================================================
    HEADER
@@ -149,8 +149,15 @@ header.plataforma-header {
 }
 
 @keyframes pulse-dot {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
 }
 
 .hero-title {
@@ -161,8 +168,13 @@ header.plataforma-header {
     margin-bottom: 22px;
 }
 
-.accent-orange { color: var(--primary); }
-.accent-blue { color: var(--secondary); }
+.accent-orange {
+    color: var(--primary);
+}
+
+.accent-blue {
+    color: var(--secondary);
+}
 
 .hero-sub {
     font-size: 17px;
@@ -279,9 +291,17 @@ header.plataforma-header {
     border-radius: 50%;
 }
 
-.t-dot.red    { background: #ff5f57; }
-.t-dot.yellow { background: #ffbd2e; }
-.t-dot.green  { background: #28c840; }
+.t-dot.red {
+    background: #ff5f57;
+}
+
+.t-dot.yellow {
+    background: #ffbd2e;
+}
+
+.t-dot.green {
+    background: #28c840;
+}
 
 .t-title {
     margin-left: auto;
@@ -299,13 +319,15 @@ header.plataforma-header {
     display: flex;
     align-items: baseline;
     gap: 8px;
-    opacity: 0;
+    opacity: 0 !important;
+    /* Força início invisível para o JS funcionar */
     transform: translateY(4px);
     transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .t-line.visible {
-    opacity: 1;
+    opacity: 1 !important;
+    /* Força a visibilidade controlada pelo script */
     transform: translateY(0);
 }
 
@@ -334,8 +356,15 @@ header.plataforma-header {
 }
 
 @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
 }
 
 /* ==========================================================================
@@ -509,7 +538,7 @@ header.plataforma-header {
     font-weight: 700;
 }
 
-.trilha-card > p {
+.trilha-card>p {
     font-size: 13px;
     color: var(--text-muted);
     line-height: 1.55;
@@ -658,6 +687,36 @@ header.plataforma-header {
 .footer-copy {
     font-size: 13px;
     color: var(--text-muted);
+}
+.footer-credits {
+    margin-top: 5px;
+    padding-top: 5px;
+    font-size: 0.6rem; /* Diminuído de 0.9rem para 0.8rem */
+    color: #8b949e;
+    text-align: right;
+    line-height: 1.4;  /* Ajusta o espaçamento entre a linha do nome e da profissão */
+}
+
+.dev-name {
+    color: #ff7a00;
+    font-weight: 600;
+}
+
+/* Controla especificamente a linha "Engenheiro de Software • Especialista em Automações" */
+.footer-credits small {
+    font-size: 0.6rem; /* Deixa a profissão ainda menor que o nome */
+    color: #6e7681;    /* Um tom cinza ligeiramente mais discreto (opcional) */
+}
+
+.footer-socials {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.footer-socials a:hover {
+    color: #58a6ff;
 }
 
 /* ==========================================================================
@@ -849,6 +908,18 @@ header.plataforma-header {
     .depo-grid {
         grid-template-columns: 1fr;
     }
+
+    .site-footer {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .footer-credits,
+    .footer-socials {
+        text-align: center;
+        justify-content: center;
+    }
 }
 
 @media (max-width: 600px) {
@@ -877,7 +948,10 @@ header.plataforma-header {
 
 /* Respeita preferência de movimento reduzido */
 @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+
+    *,
+    *::before,
+    *::after {
         animation-duration: 0.01ms !important;
         transition-duration: 0.01ms !important;
     }

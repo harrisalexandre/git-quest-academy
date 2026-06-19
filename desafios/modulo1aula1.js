@@ -1,20 +1,32 @@
-// desafios/modulo1.js
+// ==========================================================================
+// BANCO DE DADOS: MÓDULO 1 — PYTHON & GIT FLOW
+// ==========================================================================
 
-// Propósitos do Módulo 1
-const moduloObjetivosModulo1 = {
+// 1. Propósitos do Módulo 1 (Lido pelo buildSidebar no app.js)
+window.moduloObjetivosModulo1 = {
     titulo: "Módulo 1: O Ciclo Base Local e Remoto",
     descricao: "Neste bloco, você vai tirar o projeto do zero, criar lógica em Python e registrar sua primeira versão segura direto no servidor remoto."
 };
 
-// Desafios do Módulo 1
-const desafiosModulo1 = [
+// 2. Nomes das lições na Sidebar do Módulo 1
+window.nomesFasesModulo1 = [
+    "1. Iniciar Repositório",
+    "2. Declarar Variável",
+    "3. Imprimir no Console",
+    "4. Indexar Alterações (Add)",
+    "5. Confirmar Versão (Commit)",
+    "6. Enviar para Nuvem (Push)"
+];
+
+// 3. Desafios do Módulo 1
+window.desafiosModulo1 = [
     {
         id: 0,
         type: 'git',
         expected: 'git init',
         title: 'Fase 1: Inicializando o Repositório',
         desc: 'Para começar o monitoramento, initialize um repositório vazio na pasta atual. Digite exatamente: <code>git init</code>',
-        successMsg: 'Repositório inicializado com sucesso! Agora a ramificação padrão <b>main</b> está ativa.',
+        successMsg: 'Repositório inicializado com sucesso! Agora a ramificação padrão <b>main</b> está activa.',
         hint: 'Dica: Todo projeto Git começa com "git init". Verifique se você digitou as duas palavras corretamente.'
     },
     {
@@ -62,14 +74,4 @@ const desafiosModulo1 = [
         successMsg: 'Sensacional! Seu código Python agora está seguro no servidor remoto. Ciclo base concluído!',
         hint: 'Dica: O comando envia seus dados para o servidor remoto configurado (origin) na linha main: git push origin main'
     }
-];
-
-// Nomes das lições na Sidebar do Módulo 1
-const nomesFasesModulo1 = [
-    "1. Iniciar Repositório",
-    "2. Declarar Variável",
-    "3. Imprimir no Console",
-    "4. Indexar Alterações (Add)",
-    "5. Confirmar Versão (Commit)",
-    "6. Enviar para Nuvem (Push)"
 ];

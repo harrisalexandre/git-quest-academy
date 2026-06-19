@@ -2,25 +2,33 @@
 // MOTOR DO CATÁLOGO DE TRILHAS — (scripts/catalogo.js)
 // ==========================================================================
 
-// BANCO DE DADOS DOS MÓDULOS 
 const moduloInfos = [
     {
         num: 1,
-        titulo: "Fundamentos do Astro & Componentes",
-        desc: "Dê os primeiros passos no framework que está revolucionando a web. Neste módulo prático, você aprenderá a estrutura de arquivos do Astro, como funciona o frontmatter (bloco de código Markdown/JS) para gerenciar dados locais e como criar seus primeiros componentes reutilizáveis e páginas estáticas ultra-rápidas.",
-        implementado: true
+        titulo: "Fundamentos: O que é programação?",
+        desc: "Dê os primeiros passos. Neste módulo prático, você aprenderá o que é programação, como funciona uma linguagem e os conceitos básicos de lógica.",
+        implementado: true,
+        aulas: [
+            { id: 1, titulo: "Aula 1: O Ciclo Base Local" },
+            { id: 2, titulo: "Aula 2: Controle de Fluxo e Staging" }
+        ]
     },
     {
         num: 2,
         titulo: "Estilização, Layouts Globais & Slots",
-        desc: "Hora de dar forma ao seu projeto. Você aprenderá a criar Layouts globais para reaproveitar estruturas de cabeçalho e rodapé em múltiplos arquivos usando a tag <slot />. Exploraremos também o gerenciamento de estilos escopados e globais nativos do Astro para construir interfaces limpas e organizadas.",
-        implementado: true
+        desc: "Hora de dar forma ao seu projeto. Você aprenderá a criar Layouts globais para reaproveitar estruturas de cabeçalho e rodapé.",
+        implementado: true,
+        aulas: [
+            { id: 1, titulo: "Aula 1: Configurando o CSS Escopado" },
+            { id: 2, titulo: "Aula 2: Dominando a tag Slot" }
+        ]
     },
     {
         num: 3,
-        titulo: "Arquitetura de Ilhas & Integração com Frameworks",
-        desc: "O verdadeiro superpoder do Astro. Entenda o conceito de Ilhas de Hidratação (Astro Islands) e aprenda a misturar componentes dinâmicos de frameworks como React, Vue ou Svelte em páginas estáticas. Você dominará as diretivas client:* para carregar JavaScript apenas quando e onde for estritamente necessário.",
-        implementado: false
+        titulo: "Arquitetura de Ilhas & Integração",
+        desc: "O verdadeiro superpoder do Astro. Entenda o conceito de Ilhas de Hidratação (Astro Islands) e misture componentes dinâmicos.",
+        implementado: false,
+        aulas: []
     }
 ];
 
@@ -34,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (rowCount) rowCount.textContent = `${moduloInfos.length} módulos`;
 
-    // Verifica o status de cada módulo integrando com progress.js
     function getStatus(modulo) {
         if (!modulo.implementado) return 'em-breve';
         if (typeof isModuleComplete === 'function' && isModuleComplete(modulo.num)) {
@@ -56,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return `<span class="badge-status" style="color: #7e84a1;">Em breve</span>`;
     }
 
-    // Gerador dinâmico dos cards estilo Netflix
     moduloInfos.forEach((modulo) => {
         const status = getStatus(modulo);
         const isLocked = status === 'em-breve';
@@ -65,8 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.className = `netflix-card ${isLocked ? 'bloqueado' : 'ativo'} ${status === 'concluido' ? 'concluido' : ''}`;
         card.id = `card-mod${modulo.num}`;
         card.dataset.num = modulo.num;
-
-        card.style.position = 'relative'; // Garante posicionamento dos badges
+        card.style.position = 'relative';
 
         card.innerHTML = `
             ${isLocked ? `<div class="lock-icon" style="position:absolute; top:15px; right:15px; color:#7e84a1;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>` : statusBadge(status)}
@@ -80,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (row) row.appendChild(card);
     });
 
-    // Controlador do Painel de Preview inferior
     function selectModule(modulo, status, cardEl) {
         document.querySelectorAll('.netflix-card.selecionado').forEach(c => c.classList.remove('selecionado'));
 
@@ -94,26 +98,40 @@ document.addEventListener('DOMContentLoaded', () => {
         if (status === 'em-breve') {
             actionContainer.innerHTML = `<button class="btn-bloqueado" disabled style="background:#1f2029; color:#7e84a1; padding:12px 24px; border:none; border-radius:6px; cursor:not-allowed;">🔒 Módulo Bloqueado (Em breve)</button>`;
         } else {
-            const label = status === 'concluido' ? 'Revisar Módulo' : 'Entrar no Curso';
-            actionContainer.innerHTML = `<button class="btn-submit" id="btn-entrar-modulo" style="background:#FE7E04; color:white; padding:12px 28px; border:none; border-radius:6px; font-weight:700; cursor:pointer;">${label} →</button>`;
+            // RENDERIZAÇÃO DA LISTA DE AULAS DISPONÍVEIS
+            let aulasHTML = `<div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px; max-width: 500px;">`;
             
-            document.getElementById('btn-entrar-modulo').addEventListener('click', () => {
-                // Redireciona corretamente para a página do terminal passando o ID por parâmetro URL
-                window.location.href = `dashboard.html?modulo=${modulo.num}`;
+            modulo.aulas.forEach(aula => {
+                aulasHTML += `
+                    <button class="btn-aula-item" data-aula="${aula.id}" style="background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; border-radius: 6px; text-align: left; font-weight: 500; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s;">
+                        <span>${aula.titulo}</span>
+                        <span style="color: #FE7E04; font-size: 12px; font-weight: bold;">Iniciar →</span>
+                    </button>
+                `;
+            });
+            
+            aulasHTML += `</div>`;
+            actionContainer.innerHTML = aulasHTML;
+
+            // Adiciona o evento de clique em cada botão de aula
+            actionContainer.querySelectorAll('.btn-aula-item').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const aulaId = button.dataset.aula;
+                    // Passa o módulo E a aula via URL!
+                    window.location.href = `dashboard.html?modulo=${modulo.num}&aula=${aulaId}`;
+                });
             });
         }
 
         cardEl.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
     }
 
-    // Seleção automática da primeira aula disponível ao iniciar
     const primeiroFoco = moduloInfos.find(m => getStatus(m) === 'disponivel') || moduloInfos[0];
     if (primeiroFoco) {
         const cardEl = document.getElementById(`card-mod${primeiroFoco.num}`);
         if (cardEl) selectModule(primeiroFoco, getStatus(primeiroFoco), cardEl);
     }
 
-    // Atualiza o marcador global de progresso no topo da página
     const concluidos = typeof countCompletedModules === 'function' ? countCompletedModules() : 0;
     if (progressCount) progressCount.textContent = `${concluidos}/${moduloInfos.length}`;
 });

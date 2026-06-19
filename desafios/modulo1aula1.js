@@ -1,77 +1,54 @@
 // ==========================================================================
-// BANCO DE DADOS: MÓDULO 1 — PYTHON & GIT FLOW
+// BANCO DE DADOS: MÓDULO 1 — AULA 1 (scripts/desafios/modulo1aula1.js)
 // ==========================================================================
 
-// 1. Propósitos do Módulo 1 (Lido pelo buildSidebar no app.js)
-window.moduloObjetivosModulo1 = {
-    titulo: "Módulo 1: O Ciclo Base Local e Remoto",
-    descricao: "Neste bloco, você vai tirar o projeto do zero, criar lógica em Python e registrar sua primeira versão segura direto no servidor remoto."
+window.moduloObjetivosModulo1Aula1 = {
+    titulo: "Módulo 1 / Aula 1: O que é Programação?",
+    descricao: "Antes do código, vamos entender a lógica. Programar é dar instruções, e você faz isso todos os dias da sua vida sem perceber."
 };
 
-// 2. Nomes das lições na Sidebar do Módulo 1
-window.nomesFasesModulo1 = [
-    "1. Iniciar Repositório",
-    "2. Declarar Variável",
-    "3. Imprimir no Console",
-    "4. Indexar Alterações (Add)",
-    "5. Confirmar Versão (Commit)",
-    "6. Enviar para Nuvem (Push)"
+window.nomesFasesModulo1Aula1 = [
+    "1. Dar Instruções",
+    "2. Criar um Algoritmo",
+    "3. Tomar Decisões",
+    "4. Previsibilidade com Git"
 ];
 
-// 3. Desafios do Módulo 1
-window.desafiosModulo1 = [
+window.desafiosModulo1Aula1 = [
     {
         id: 0,
-        type: 'git',
-        expected: 'git init',
-        title: 'Fase 1: Inicializando o Repositório',
-        desc: 'Para começar o monitoramento, initialize um repositório vazio na pasta atual. Digite exatamente: <code>git init</code>',
-        successMsg: 'Repositório inicializado com sucesso! Agora a ramificação padrão <b>main</b> está activa.',
-        hint: 'Dica: Todo projeto Git começa com "git init". Verifique se você digitou as duas palavras corretamente.'
+        type: 'python',
+        expected: 'iniciar_rotina()',
+        title: 'Fase 1: O que é Programar?',
+        desc: 'Programar significa simplesmente <b>"Dar instruções a algo"</b>. Quando você acorda e decide levantar, está seguindo uma instrução interna. Vamos dar a primeira instrução para o nosso sistema acordar. Digite o comando: <code>iniciar_rotina()</code>',
+        successMsg: 'Instrução recebida! O sistema acordou. Viu só? Você acabou de programar um comportamento.',
+        hint: 'Dica: Digite exatamente "iniciar_rotina()" com os parênteses no final para disparar a instrução.'
     },
     {
         id: 1,
         type: 'python',
-        expected: 'nome_app = "GitQuest"',
-        title: 'Fase 2: Lógica Python - Variáveis',
-        desc: 'Crie uma variável de texto (String) chamada <code>nome_app</code> que guarde o nome <code>"GitQuest"</code>.',
-        successMsg: 'Variável criada! O computador reservou um espaço na memória RAM para este dado.',
-        hint: 'Dica: Em Python, não use espaços antes ou depois do nome da variável. O texto deve estar entre aspas: nome_app = "GitQuest"'
+        expected: 'passo1 = "escovar_dentes"',
+        title: 'Fase 2: Sequências e Algoritmos',
+        desc: 'Uma sequência de instruções organizadas para resolver um problema é um <b>Algoritmo</b>. Lavar o carro, fazer um café ou sua rotina matinal são algoritmos. Vamos registrar o primeiro passo do algoritmo do seu dia criando uma variável com a tarefa. Digite: <code>passo1 = "escovar_dentes"</code>',
+        successMsg: 'Passo registrado na memória! Uma sequência lógica impede que você tente calçar os sapatos antes das meias.',
+        hint: 'Dica: Use aspas para o texto: passo1 = "escovar_dentes"'
     },
     {
         id: 2,
         type: 'python',
-        expected: 'print(nome_app)',
-        title: 'Fase 3: Python - Exibindo Dados',
-        desc: 'Use a função interna do Python para exibir o conteúdo da variável no console. Digite: <code>print(nome_app)</code>',
-        successMsg: 'Exibido! O console retornou "GitQuest". Agora seu código está pronto para ser guardado pelo Git.',
-        hint: 'Dica: A função escreve-se tudo em minúsculo e a variável vai dentro dos parênteses: print(nome_app)'
+        expected: 'if chuva == True:',
+        title: 'Fase 3: Tomando Decisões (If/Else)',
+        desc: 'No dia a dia, algoritmos mudam dependendo de condições. <i>"SE chover, levo guarda-chuva. SENÃO, não levo."</i> Futuramente usaremos as palavras <code>if</code> (se) e <code>else</code> (senão) para isso. Vamos simular essa checagem lógica de chuva agora. Digite o início dessa decisão em Python: <code>if chuva == True:</code>',
+        successMsg: 'Perfeito! O sistema agora sabe que precisa avaliar uma condição antes de seguir a instrução.',
+        hint: 'Dica: Não esqueça dos dois pontos no final do comando: if chuva == True:'
     },
     {
         id: 3,
         type: 'git',
-        expected: 'git add .',
-        title: 'Fase 4: Preparação (Staging Area)',
-        desc: 'Mova seu arquivo Python modificado para a área de preparação do Git antes do salvamento. Digite: <code>git add .</code>',
-        successMsg: 'Excelente! Arquivos indexados e prontos para o snapshot histórico.',
-        hint: 'Dica: O ponto "." significa "adicionar todos os arquivos da pasta atual". Digite: git add .'
-    },
-    {
-        id: 4,
-        type: 'git',
-        expected: 'git commit -m "feat: primeira variavel"',
-        title: 'Fase 5: Gravando o Histórico (Commit)',
-        desc: 'Grave permanentemente esta versão com uma mensagem descritiva. Digite: <code>git commit -m "feat: primeira variavel"</code>',
-        successMsg: 'Commit realizado! Um novo ponto na linha do tempo foi registrado no gráfico.',
-        hint: 'Dica: Lembre-se de abrir e fechar as aspas na mensagem do commit após o parâmetro -m.'
-    },
-    {
-        id: 5,
-        type: 'git',
-        expected: 'git push origin main',
-        title: 'Fase 6: Publicação Remota (Push)',
-        desc: 'Finalize o ciclo enviando seu commit local para o servidor em nuvem na branch principal. Digite: <code>git push origin main</code>',
-        successMsg: 'Sensacional! Seu código Python agora está seguro no servidor remoto. Ciclo base concluído!',
-        hint: 'Dica: O comando envia seus dados para o servidor remoto configurado (origin) na linha main: git push origin main'
+        expected: 'git init',
+        title: 'Fase 4: Previsibilidade e Segurança com Git',
+        desc: 'Quando criamos rotinas complexas (ou códigos com outras pessoas), precisamos de segurança e histórico para o caso de cometermos um erro. O <b>Git</b> funciona como uma máquina do tempo. Ele garante que possamos salvar o estado atual do projeto e trabalhar em grupo sem um apagar o arquivo do outro. Vamos inicializar essa proteção na nossa rotina criando uma pasta segura de histórico. Digite: <code>git init</code>',
+        successMsg: '🏆 Sensacional! Você entendeu a base teórica. Programar é guiar caminhos e o Git é o cinto de segurança. Próxima parada: Aula 2 para salvar seus primeiros arquivos de verdade!',
+        hint: 'Dica: O comando mestre do Git para iniciar o histórico é sempre: git init'
     }
 ];

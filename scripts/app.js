@@ -2,25 +2,24 @@
 // CONTROLADOR CENTRAL DO JOGO (GERENCIADOR DE ESTADOS)
 // ==========================================================================
 
-// 1. CAPTURA O MÓDULO VIA URL (?modulo=1 ou ?modulo=2)
+// 1. CAPTURA O MÓDULO E A AULA VIA URL (?modulo=1&aula=1)
 const urlParams = new URLSearchParams(window.location.search);
 const moduloSelecionado = parseInt(urlParams.get('modulo')) || 1;
+const aulaSelecionada = parseInt(urlParams.get('aula')) || 1;
 
-// 2. DEFINE O BANCO DE QUESTÕES E INFOS BASEADO NO MÓDULO ATIVO
+// 2. DEFINE O BANCO DE QUESTÕES E INFOS BASEADO NO MÓDULO E AULA ATIVOS
 let stages = [];
 let phaseNames = [];
 let moduloObjetivos = { titulo: "", descricao: "" };
 
-// Monta dinamicamente os nomes das variáveis esperadas para o módulo atual
-// (desafiosModulo1, desafiosModulo2, desafiosModulo3... conforme moduloN.js for criado)
-const desafiosVarName = `desafiosModulo${moduloSelecionado}`;
-const nomesVarName = `nomesFasesModulo${moduloSelecionado}`;
-const objetivosVarName = `moduloObjetivosModulo${moduloSelecionado}`;
+const desafiosVarName = `desafiosModulo${moduloSelecionado}Aula${aulaSelecionada}`;
+const nomesVarName = `nomesFasesModulo${moduloSelecionado}Aula${aulaSelecionada}`;
+const objetivosVarName = `moduloObjetivosModulo${moduloSelecionado}Aula${aulaSelecionada}`;
 
 stages = typeof window[desafiosVarName] !== 'undefined' ? window[desafiosVarName] : [];
 phaseNames = typeof window[nomesVarName] !== 'undefined' ? window[nomesVarName] : [];
 moduloObjetivos = typeof window[objetivosVarName] !== 'undefined' ? window[objetivosVarName] : {
-    titulo: `Módulo ${moduloSelecionado}`,
+    titulo: `Módulo ${moduloSelecionado} - Aula ${aulaSelecionada}`,
     descricao: "Conteúdo deste módulo ainda não foi configurado."
 };
 
@@ -30,22 +29,61 @@ let variablesInMemory = {};
 let commitHistory = [];
 let isGitInitialized = false;
 
+// HISTÓRICO DE COMANDOS (Seta para Cima)
+let commandHistory = [];
+let historyIndex = -1;
+
 // 4. INICIALIZADOR DO ECOSSISTEMA
 window.onload = function() {
     buildSidebar();
     
-    // Insere o gatilho visual para capturar o comando mestre "cheat" no input
     const terminalInput = document.getElementById('terminal-in');
+    
+    // Vincula o botão físico de Play caso ele exista no HTML (ex: id="play-btn")
+    const playButton = document.getElementById('play-btn');
+    if (playButton && terminalInput) {
+        playButton.onclick = function() {
+            submitTerminalCommand(terminalInput);
+        };
+    }
+
     if (terminalInput) {
-        // Garante que o input ouve o comando secreto 'cheat'
-        const originalOnkeydown = terminalInput.onkeydown;
         terminalInput.onkeydown = function(event) {
-            if (event.key === 'Enter' && (this.value.trim() === 'cheat' || this.value.trim() === 'skip')) {
+            // CHEAT / SKIP MASTER
+            if (event.key === 'Enter' && !event.ctrlKey && (this.value.trim() === 'cheat' || this.value.trim() === 'skip')) {
+                event.preventDefault();
                 skipAllStages();
                 this.value = '';
                 return;
             }
-            if(originalOnkeydown) originalOnkeydown.call(this, event);
+
+            // CTRL + ENTER: Executa o código enviado
+            if (event.key === 'Enter' && event.ctrlKey) {
+                event.preventDefault();
+                submitTerminalCommand(this);
+                return;
+            }
+
+            // SETA PARA CIMA: Resgata o histórico anterior
+            if (event.key === 'ArrowUp') {
+                event.preventDefault();
+                if (commandHistory.length > 0 && historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    this.value = commandHistory[commandHistory.length - 1 - historyIndex];
+                }
+            }
+
+            // SETA PARA BAIXO: Avança no histórico ou limpa o campo
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    this.value = commandHistory[commandHistory.length - 1 - historyIndex];
+                } else if (historyIndex === 0) {
+                    historyIndex = -1;
+                    this.value = '';
+                }
+            }
         };
     }
 
@@ -56,6 +94,16 @@ window.onload = function() {
         document.getElementById('ch-desc').innerText = "Este módulo ainda não possui desafios cadastrados. Volte ao catálogo e escolha uma aula disponível.";
     }
 };
+
+// FUNÇÃO AUXILIAR PARA PEGAR O INPUT, GUARDAR NO HISTÓRICO E PROCESSAR
+function submitTerminalCommand(inputElement) {
+    const rawValue = inputElement.value;
+    if (rawValue.trim() !== '') {
+        commandHistory.push(rawValue); // Adiciona ao histórico de comandos executados
+    }
+    historyIndex = -1; // Reseta o ponteiro de navegação do histórico
+    processInput(rawValue);
+}
 
 // 5. RENDERIZADOR DA BARRA LATERAL DINÂMICA
 function buildSidebar() {
@@ -83,12 +131,17 @@ function processInput(val) {
 
     if(!cleanInput || !currentStage) return;
 
-    display.innerHTML += `<br><span style="color: #fff;">$ ${cleanInput}</span><br>`;
+    // Normaliza quebras de linha para exibição visual limpa no log do console
+    let formattedDisplayInput = cleanInput.replace(/\n/g, '<br>.. ');
+    display.innerHTML += `<br><span style="color: #fff;">$ ${formattedDisplayInput}</span><br>`;
 
-    if (cleanInput === currentStage.expected || cleanInput.replace(/\s+/g, '') === currentStage.expected.replace(/\s+/g, '')) {
+    // Remove espaços extras e quebras de linha para validação idêntica de blocos estruturados
+    let normalizedInput = cleanInput.replace(/\s+/g, '');
+    let normalizedExpected = currentStage.expected.replace(/\s+/g, '');
+
+    if (normalizedInput === normalizedExpected) {
         display.innerHTML += `<span style="color: var(--success);">✓ Comando executado com sucesso!</span><br>`;
         
-        // Efeitos colaterais baseados em comandos chave
         if (cleanInput === 'git init') {
             isGitInitialized = true;
             let statusMsg = document.getElementById('git-status-msg');
@@ -96,8 +149,8 @@ function processInput(val) {
             document.getElementById('current-branch-lbl').innerText = 'main';
             document.getElementById('current-branch-lbl').style.color = 'var(--primary)';
             updateGitUI();
-        } else if (cleanInput === 'print(nome_app)') {
-            display.innerHTML += `<span style="color: #00ff00; font-weight: bold;">[CONSOLE OUTPUT] "GitQuest"</span><br>`;
+        } else if (cleanInput.includes('print(')) {
+            display.innerHTML += `<span style="color: #00ff00; font-weight: bold;">[CONSOLE OUTPUT] Processado</span><br>`;
         } else if (currentStage.type === 'python' && cleanInput.includes('=')) {
             let parts = cleanInput.split('=');
             variablesInMemory[parts[0].trim()] = parts[1].trim();
@@ -117,7 +170,6 @@ function processInput(val) {
             finalizarModulo();
         }
     } else {
-        // Motor analítico de erros de sintaxe
         let errorFeedback = "❌ Erro: Comando incorreto para esta etapa.";
         
         if (currentStage.type === 'git' && !cleanInput.startsWith('git')) {
@@ -163,6 +215,7 @@ function updateMemoryUI() {
     }
 }
 
+// 9. ATUALIZAÇÃO DA ÁRVORE GIT
 function updateGitUI() {
     let treeView = document.getElementById('git-tree-view');
     if(!treeView) return;
@@ -181,30 +234,29 @@ function updateGitUI() {
     });
 }
 
-// 9. FINALIZAÇÃO DE MÓDULO (compartilhado entre fluxo normal e skip/cheat)
+// 10. FINALIZAÇÃO DE MÓDULO/AULA (Ajustado para avançar para a próxima AULA)
 function finalizarModulo() {
-    // Persiste o progresso no localStorage (ver scripts/progress.js)
     if (typeof markModuleComplete === 'function') {
-        markModuleComplete(moduloSelecionado);
+        markModuleComplete(moduloSelecionado); // Salva o progresso
     }
 
-    document.getElementById('ch-title').innerText = `🏆 MÓDULO ${moduloSelecionado} FINALIZADO!`;
-    document.getElementById('ch-desc').innerText = `Parabéns! Você concluiu todos os requisitos obrigatórios desta trilha.`;
-    document.getElementById('tutor-text').innerText = "Excelente! Seu progresso foi salvo. Volte ao catálogo.";
+    document.getElementById('ch-title').innerText = `🏆 AULA CONCLUÍDA!`;
+    document.getElementById('ch-desc').innerText = `Parabéns! Você concluiu com sucesso todas as etapas desta aula.`;
+    document.getElementById('tutor-text').innerText = "Excelente! Pronto para o próximo desafio?";
 
     const successModal = document.getElementById('success-modal');
     if (successModal) {
         const nextBtn = successModal.querySelector('a');
         if (nextBtn) {
-            // Mantém o parâmetro de URL por compatibilidade, mas quem manda
-            // agora é o localStorage (lido por catalogo.html via progress.js)
-            nextBtn.href = `catalogo.html?modulo${moduloSelecionado}=ready`;
+            // Calcula qual seria a próxima aula para avançar o aluno organicamente
+            const proximaAula = aulaSelecionada + 1;
+            nextBtn.href = `dashboard.html?modulo=${moduloSelecionado}&aula=${proximaAula}`;
         }
         successModal.classList.add('active');
     }
 }
 
-// 10. COMANDO MESTRE DE TESTES (SKIP ALL)
+// 11. COMANDO MESTRE DE TESTES (SKIP ALL)
 function skipAllStages() {
     let display = document.getElementById('console-display');
     display.innerHTML += `<br><span style="color: #ff00ff; font-weight: bold;">[DEBUG] Executando comando mestre...</span><br>`;
@@ -228,7 +280,6 @@ function skipAllStages() {
 
     updateMemoryUI();
     updateGitUI();
-
     currentStageIndex = stages.length;
 
     document.querySelectorAll('.phase-item').forEach((item) => {
@@ -236,10 +287,4 @@ function skipAllStages() {
     });
 
     finalizarModulo();
-
-    document.getElementById('ch-title').innerText = `🏆 MÓDULO ${moduloSelecionado} FINALIZADO (DEBUG)!`;
-    document.getElementById('ch-desc').innerText = "Modo de teste ativado: Todas as fases foram puladas.";
-
-    display.innerHTML += `<span style="color: var(--success); font-weight: bold;">✓ Atividades validadas via Cheat.</span><br>`;
-    display.scrollTop = display.scrollHeight;
 }

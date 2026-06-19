@@ -1,6 +1,6 @@
 # 🚀 Git Quest Academy — Plataforma de Aprendizado Gamificada
 
-**🔗 Acesse a aplicação rodando ao vivo:** [harrisalexandre.github.io/git-quest-academy](https://harrisalexandre.github.io/git-quest-academy)
+**🔗 Acesse a aplicação rodando ao vivo:** [git-quest-academy](https://harrisalexandre.github.io/git-quest-academy)
 
 Bem-vindo ao repositório oficial da **Git Quest Academy**, uma plataforma educacional interativa projetada para ensinar conceitos de desenvolvimento de software e controle de versão através de desafios práticos aplicados dentro de um terminal simulado na web.
 

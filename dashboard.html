@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Quest Academy - Modular</title>
+    <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+
+    <div id="sidebar">
+        <div class="logo-area">
+            <h1>Git Quest</h1>
+            <span>&lt;PYTHON & GIT FLOW&gt;</span>
+        </div>
+        <div class="phase-list" id="phase-list-container">
+            </div>
+        <div id="tutor-alert">
+            <strong>Professor IA:</strong><br>
+            <span id="tutor-text">Carregando módulos...</span>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <div class="mission-control">
+            <div class="challenge-box">
+                <h3 id="ch-title">-</h3>
+                <p id="ch-desc">-</p>
+            </div>
+        </div>
+
+        <div class="workspace-grid">
+            <div class="interactive-zone">
+                <div class="console-log" id="console-display">
+                    --- INICIALIZANDO ECOSSISTEMA MODULAR ---<br>
+                </div>
+                <div class="input-area">
+                    <span class="prompt-symbol">$</span>
+                    <input type="text" class="cmd-input" id="terminal-in" placeholder="Digite o comando aqui..." onkeydown="if(event.key==='Enter') processInput(this.value)">
+                </div>
+            </div>
+
+            <div class="visualizer-zone">
+                <div class="vis-card">
+                    <h4>Árvore de Ramificação Git</h4>
+                    <div class="git-node-container" id="git-tree-view">
+                        <div style="font-size: 11px; color: var(--error);" id="git-status-msg">Repositório não inicializado.</div>
+                    </div>
+                    <div style="font-size: 11px; margin-top: 15px; color: var(--text-muted);">
+                        Branch Atual: <span id="current-branch-lbl" style="color: var(--error); font-weight:bold;">nenhuma</span>
+                    </div>
+                </div>
+
+                <div class="vis-card">
+                    <h4>Stack de Memória Python</h4>
+                    <div class="mem-grid" id="python-memory-view"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="success-modal">
+        <div class="modal-box" style="border: 1px solid var(--success); box-shadow: 0 0 20px rgba(35, 169, 80, 0.2);">
+            <h3 style="color: var(--success); font-size: 24px; margin-bottom: 10px;">🏆 MÓDULO CONCLUÍDO!</h3>
+            <p style="color: var(--text); font-size: 14px; margin-bottom: 25px; line-height: 1.5;">
+                Sensacional! Você dominou o ciclo base local e remoto. Criou variáveis em Python, inspecionou a memória, indexou, commitou e empurrou seu código para a nuvem com <code>git push</code>.
+            </p>
+            <a href="catalogo.html?modulo1=ready" class="btn-submit" style="background: var(--success); text-decoration: none; display: inline-block; width: auto; padding: 12px 30px;">
+                Avançar para o Módulo 2 ➔
+            </a>
+        </div>
+    </div>
+
+    <script src="desafios/modulo1.js"></script>
+    <script src="desafios/modulo2.js"></script>
+
+    <!-- progress.js precisa vir ANTES de app.js: app.js chama markModuleComplete() -->
+    <script src="./scripts/progress.js"></script>
+    <script src="./scripts/app.js"></script>
+</body>
+</html>
